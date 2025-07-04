@@ -9,7 +9,9 @@ USERNAME="nikesh_sar"
 PASSWORD="Nikesh@123"
 
 # Build directory where the Dockerfile exists
-BUILD_DIR="/root/ocpcls/newconfig0405/oclogs/face_training_app"
+# BUILD_DIR="/root/ocpcls/newconfig0405/oclogs/face_training_app"
+# For Autosd
+ BUILD_DIR="/root/ocppipeline/oclogs/face_training_app"
 
 # API endpoint to notify
 API_URL="https://sosly6i1zl.execute-api.us-east-1.amazonaws.com/dev/RHOSGetFluentBitLogs"
@@ -66,4 +68,6 @@ echo "Successfully built new image: $FULL_IMAGE" | tee -a "$BUILD_LOG"
 python3 /root/ocpcls/validation-v2/master.py --op detection
 
 #Push the container to Quay Repo
-/root/ocpcls/newconfig0405/oclogs/pushimagetoquay-facetraining.sh
+# /root/ocpcls/newconfig0405/oclogs/pushimagetoquay-facetraining.sh
+# For Autosd
+/root/ocppipeline/oclogs/pushimagetoquay-facetraining.sh
