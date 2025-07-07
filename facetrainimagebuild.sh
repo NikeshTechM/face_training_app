@@ -64,8 +64,11 @@ fi
 
 echo "Successfully built new image: $FULL_IMAGE" | tee -a "$BUILD_LOG"
 
-#Test and validate the container
-python3 /root/ocpcls/validation-v2/master.py --op detection
+#Test and validate the container-RHEL
+#python3 /root/ocpcls/validation-v2/master.py --op detection
+
+#Test and validate the container-AutoSD
+python3 /root/ocppipeline/validation/master.py --op training
 
 #Push the container to Quay Repo
 # /root/ocpcls/newconfig0405/oclogs/pushimagetoquay-facetraining.sh
