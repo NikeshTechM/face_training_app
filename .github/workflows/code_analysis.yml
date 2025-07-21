@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10  # ✅ Valid Python version
+          python-version: 3.11  # ✅ Valid Python version
 
       - name: Install dependencies
         run: pip install openai
