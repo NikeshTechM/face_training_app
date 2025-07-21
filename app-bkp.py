@@ -222,4 +222,4 @@ if __name__ == "__main__":
         logging.info(f"User image metadata saved to {output_json_path}")
 
     logging.info("Pipeline complete.")
-    print("Testing LLM-new1")
+    print("Testing LLM-new3")
