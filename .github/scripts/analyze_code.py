@@ -1,13 +1,12 @@
-import openai
 import os
-import json
+import openai
 
-# Set OpenAI key via GitHub Secrets
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Create OpenAI client with API key
+client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def read_all_code_files(base_path):
     code_files = []
-    for root, dirs, files in os.walk(base_path):
+    for root, _, files in os.walk(base_path):
         for file in files:
             if file.endswith(('.py', '.js', '.cpp', '.java')):
                 full_path = os.path.join(root, file)
@@ -24,10 +23,12 @@ File: {file_path}
 Code:
 {content}
 
-Respond with the fixed code if any issues are found.
+If there are memory leak issues, fix them and return the entire modified code file. 
+If no issues, return the original code.
+Respond only with the full code.
 """
-    response = openai.ChatCompletion.create(
-        model="gpt-4o",  # or gpt-4, gpt-4-1106-preview
+    response = client.chat.completions.create(
+        model="gpt-4o",  # or gpt-4
         messages=[{"role": "user", "content": prompt}],
         temperature=0.2,
     )
@@ -40,13 +41,16 @@ def write_back_if_modified(path, new_content):
         with open(path, 'w', encoding='utf-8') as f:
             f.write(new_content)
         print(f"Updated: {path}")
+    else:
+        print(f"No changes: {path}")
 
 def main():
     code_files = read_all_code_files('.')
     for file_path, content in code_files:
         print(f"Analyzing: {file_path}")
         result = ask_llm_to_analyze(file_path, content)
-        if result.startswith("```"):  # strip code block markers
+        # Remove ``` blocks if present
+        if result.startswith("```"):
             result = result.split("```")[1]
             if result.startswith(("python", "cpp", "java", "js")):
                 result = "\n".join(result.split("\n")[1:])
