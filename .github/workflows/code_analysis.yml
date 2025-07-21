@@ -9,7 +9,7 @@ on:
 
 jobs:
   analyze_code:
-    runs-on: linux-latest
+    runs-on: ubuntu-latest  # ✅ Fixed here
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
