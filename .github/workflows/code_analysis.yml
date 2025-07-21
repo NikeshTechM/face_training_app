@@ -1,0 +1,33 @@
+name: Code Analysis and Auto Fix
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  analyze_code:
+    runs-on: linux-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
+        run: pip install openai
+
+      - name: Run LLM Code Analyzer
+        run: python .github/scripts/analyze_code.py
+
+      - name: Commit changes if any
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add .
+          git commit -m "Auto fix memory leak issues via LLM" || echo "No changes"
+          git push origin HEAD:${{ github.ref_name }}
