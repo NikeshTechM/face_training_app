@@ -1,10 +1,9 @@
 import os
+print("Loaded API Key:", "YES" if os.getenv("OPENAI_API_KEY") else "NO")
 import openai
 
 # Create OpenAI client with API key
 client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-print("Loaded API Key:", "YES" if os.getenv("OPENAI_API_KEY") else "NO")
-
 
 def read_all_code_files(base_path):
     code_files = []
