@@ -9,7 +9,7 @@ on:
 
 jobs:
   analyze_code:
-    runs-on: ubuntu-latest  # ✅ Fixed here
+    runs-on: ubuntu-latest  # ✅ Correct runner
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -17,13 +17,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: 3.10  # ✅ Valid Python version
 
       - name: Install dependencies
         run: pip install openai
 
       - name: Run LLM Code Analyzer
         run: python .github/scripts/analyze_code.py
+        env:  # ✅ Pass the OpenAI API key securely
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Commit changes if any
         run: |
